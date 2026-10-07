@@ -6,7 +6,7 @@ import {
   BarChart3, Trash2, ArrowLeft, Lock
 } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5000/api/software';
+const API_BASE = '/api/software';
 const CATEGORIES = ['All', 'Development', 'Office', 'Design', 'Utilities', 'Security'];
 const SECRET_PIN = 'admin123'; // Aap apna pasandeeda secret code yahan set kar sakte hain
 
