@@ -1,6 +1,9 @@
 {
   "name": "software-setup-fullstack",
   "version": "1.0.0",
+  "scripts": {
+    "build": "cd client && npm install && npm run build"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
