@@ -1,4 +1,3 @@
-// api/index.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,16 +6,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection with Caching for Serverless
+// MongoDB Serverless Connection
 let isConnected = false;
 const connectDB = async () => {
   if (isConnected) return;
   try {
     const db = await mongoose.connect(process.env.MONGO_URI);
     isConnected = db.connections[0].readyState;
-    console.log('MongoDB Connected to Serverless');
   } catch (err) {
-    console.error('MongoDB Connection Error:', err);
+    console.error('MongoDB Error:', err);
   }
 };
 
@@ -52,7 +50,6 @@ softwareSchema.pre('save', function (next) {
 
 const Software = mongoose.models.Software || mongoose.model('Software', softwareSchema);
 
-// Middleware to ensure DB connection
 app.use(async (req, res, next) => {
   await connectDB();
   next();
@@ -101,5 +98,4 @@ app.delete('/api/software/:id', async (req, res) => {
   }
 });
 
-// Vercel serverless export
 module.exports = app;
