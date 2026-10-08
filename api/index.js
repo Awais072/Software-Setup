@@ -98,4 +98,19 @@ app.delete('/api/software/:id', async (req, res) => {
   }
 });
 
+// Edit / Update Software Route
+app.put('/api/software/:id', async (req, res) => {
+  try {
+    const updated = await Software.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true, runValidators: true }
+    );
+    if (!updated) return res.status(404).json({ error: 'Software not found' });
+    res.json(updated);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 module.exports = app;
