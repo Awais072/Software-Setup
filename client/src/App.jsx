@@ -7,7 +7,7 @@ import {
 
 const API_BASE = '/api/software';
 
-const CATEGORIES = ['All', 'Development', 'Office', 'Design', 'Utilities', 'Security'];
+const CATEGORIES = ['All', 'Development', 'Office', 'Design'];
 
 export default function App() {
   const [softwares, setSoftwares] = useState([]);
@@ -162,14 +162,14 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                Organization App Hub
+                Softwares
                 {isAdmin && (
                   <span className="text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
                     <Shield className="w-3 h-3" /> Admin Mode
                   </span>
                 )}
               </h1>
-              <p className="text-xs text-slate-400">Verified Workstation Software</p>
+              <p className="text-xs text-slate-400">Windows Workstation Softwares</p>
             </div>
           </div>
 
