@@ -169,7 +169,7 @@ export default function App() {
                   </span>
                 )}
               </h1>
-              <p className="text-xs text-slate-400">Windows Workstation Softwares</p>
+              <p className="text-xs text-slate-400">Windows Softwares</p>
             </div>
           </div>
 
