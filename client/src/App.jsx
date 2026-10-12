@@ -456,26 +456,52 @@ export default function App() {
       )}
 
       {/* Notes / Details Modal */}
+      {/* Notes / Details Modal (Fixed Scrolling & Sticky Header) */}
       {selectedSoftware && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
-            <div className="flex items-center justify-between mb-4">
+        <div 
+          className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedSoftware(null)}
+        >
+          <div 
+            className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header - Always Visible */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800 bg-slate-900 shrink-0">
               <h3 className="font-semibold text-slate-100 text-sm flex items-center gap-2">
-                <FileText className="w-4 h-4 text-blue-400" /> {selectedSoftware.title} Notes
+                <FileText className="w-4 h-4 text-blue-400" /> 
+                <span className="truncate max-w-[280px]">{selectedSoftware.title} Installation Notes</span>
               </h3>
-              <button onClick={() => setSelectedSoftware(null)} className="text-slate-400 hover:text-slate-200">
-                <X className="w-4 h-4" />
+              <button 
+                onClick={() => setSelectedSoftware(null)} 
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition"
+              >
+                <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed whitespace-pre-line mb-4">
-              {selectedSoftware.instructions}
+
+            {/* Scrollable Text Body */}
+            <div className="p-5 overflow-y-auto flex-1 space-y-3">
+              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs text-slate-300 leading-relaxed whitespace-pre-line font-mono select-text">
+                {selectedSoftware.instructions}
+              </div>
             </div>
-            <button 
-              onClick={() => handleDownload(selectedSoftware)}
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition"
-            >
-              <Download className="w-3.5 h-3.5" /> Download Now
-            </button>
+
+            {/* Modal Footer - Always Visible */}
+            <div className="p-4 border-t border-slate-800 bg-slate-900/90 flex gap-2 shrink-0">
+              <button 
+                onClick={() => setSelectedSoftware(null)}
+                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs font-medium transition"
+              >
+                Close
+              </button>
+              <button 
+                onClick={() => handleDownload(selectedSoftware)}
+                className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-blue-600/20"
+              >
+                <Download className="w-3.5 h-3.5" /> Download Now
+              </button>
+            </div>
           </div>
         </div>
       )}
