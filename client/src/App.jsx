@@ -151,6 +151,26 @@ export default function App() {
     }
   };
 
+  const handleDownloadNotes = (software) => {
+    if (!software.instructions) return;
+    const element = document.createElement("a");
+    const file = new Blob([
+      `=== ${software.title.toUpperCase()} - INSTALLATION NOTES ===\n`,
+      `Version: ${software.version || 'N/A'}\n`,
+      `Platform: ${software.os || 'N/A'}\n`,
+      `Category: ${software.category || 'N/A'}\n\n`,
+      `INSTRUCTIONS:\n`,
+      `${software.instructions}\n\n`,
+      `Direct Download Link:\n${software.directDownloadUrl || software.driveUrl || 'N/A'}\n`
+    ], { type: 'text/plain;charset=utf-8' });
+    
+    element.href = URL.createObjectURL(file);
+    element.download = `${software.title.replace(/\s+/g, '_')}_Install_Notes.txt`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       {/* Header */}
@@ -456,7 +476,6 @@ export default function App() {
       )}
 
       {/* Notes / Details Modal */}
-      {/* Notes / Details Modal (Fixed Scrolling & Sticky Header) */}
       {selectedSoftware && (
         <div 
           className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4"
@@ -488,18 +507,29 @@ export default function App() {
             </div>
 
             {/* Modal Footer - Always Visible */}
-            <div className="p-4 border-t border-slate-800 bg-slate-900/90 flex gap-2 shrink-0">
+            {/* Modal Footer - Actions */}
+            <div className="p-4 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row gap-2 shrink-0">
               <button 
                 onClick={() => setSelectedSoftware(null)}
-                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs font-medium transition"
+                className="order-3 sm:order-1 sm:w-24 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-xs font-medium transition"
               >
                 Close
               </button>
+              
+              {/* Download Notes TXT Button */}
+              <button 
+                onClick={() => handleDownloadNotes(selectedSoftware)}
+                className="order-2 flex-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 text-slate-200 font-medium py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition"
+              >
+                <FileText className="w-3.5 h-3.5 text-blue-400" /> Save Notes (.txt)
+              </button>
+
+              {/* Download Software Button */}
               <button 
                 onClick={() => handleDownload(selectedSoftware)}
-                className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-blue-600/20"
+                className="order-1 sm:order-3 flex-1 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition shadow-lg shadow-blue-600/20"
               >
-                <Download className="w-3.5 h-3.5" /> Download Now
+                <Download className="w-3.5 h-3.5" /> Download Software
               </button>
             </div>
           </div>
